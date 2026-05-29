@@ -38,11 +38,7 @@ pipeline {
                     cat nginx-results.json
                 '''
             }
-            post {
-                always {
-                archiveArtifacts artifacts: '*-results.json', onlyIfSuccessful: true
-                }
-            }
+            
         }
 
         stage('Run Containers') {
@@ -54,5 +50,11 @@ pipeline {
                 '''
             }
         }
+        
+        post {
+                always {
+                    archiveArtifacts artifacts: '*-results.json', onlyIfSuccessful: true
+                }
+            }
     }
 }
