@@ -28,6 +28,15 @@ pipeline {
             }
         }
 
+        stage('Scan images'){
+            steps{
+                sh '''
+                    trivy image --severity HIGH,CRITICAL flaskapp
+                    trivy image --severity HIGH,CRITICAL nginx-proxy
+                '''
+            }
+        }
+
         stage('Run Containers') {
             steps {
                 sh '''
