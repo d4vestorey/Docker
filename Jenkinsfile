@@ -50,11 +50,12 @@ pipeline {
                 '''
             }
         }
-        
-        post {
-                always {
-                    archiveArtifacts artifacts: '*-results.json', onlyIfSuccessful: true
-                }
-            }
+    
     }
+
+    post {
+            always {
+                archiveArtifacts artifacts: '*-results.json', onlyIfSuccessful: true
+            }
+        }
 }
