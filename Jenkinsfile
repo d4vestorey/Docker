@@ -19,21 +19,6 @@ pipeline {
             }
         }
 
-        stage("Run unit tests") {
-            steps {
-                script {
-                        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                            sh """
-                                python3 -m venv .venv
-                                . .venv/bin/activate
-                                pip install -r requirements.txt
-                                python3 -m unittest -v test_app.py
-                                deactivate
-                            """
-                            }
-                        }
-                }
-        }
 
         stage('Build Images') {
             steps {
@@ -67,6 +52,21 @@ pipeline {
             }
         }
     
+    stage("Run unit tests") {
+            steps {
+                script {
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                            sh """
+                                python3 -m venv .venv
+                                . .venv/bin/activate
+                                pip install -r requirements.txt
+                                python3 -m unittest -v test_app.py
+                                deactivate
+                            """
+                            }
+                        }
+                }
+        }
     }
 
     post {
