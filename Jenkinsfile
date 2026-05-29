@@ -28,12 +28,20 @@ pipeline {
             }
         }
 
-        stage('Scan images'){
-            steps{
+        stage('Trivy Scan') {
+            steps {
                 sh '''
-                    trivy image --severity HIGH,CRITICAL flaskapp
-                    trivy image --severity HIGH,CRITICAL nginx-proxy
+                    trivy image -f json -o flaskapp-results.json flaskapp
+                    trivy image -f json -o nginx-results.json nginx-proxy
+
+                    cat flaskapp-results.json
+                    cat nginx-results.json
                 '''
+            }
+            post {
+                always {
+                archiveArtifacts artifacts: '*-results.json', onlyIfSuccessful: true
+                }
             }
         }
 
